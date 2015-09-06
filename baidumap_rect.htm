@@ -18,28 +18,25 @@
 <script type="text/javascript">
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");            // 创建Map实例
-	map.centerAndZoom(new BMap.Point(120.85,30.6667),9);
+	map.centerAndZoom(new BMap.Point(121.48,31.22),11);
 	map.enableScrollWheelZoom();    //启用滚轮放大缩小
-    
-	var logitude = 120.85;
-	var latitude = 30.6667;
+    var bs = map.getBounds();    //矩形范围
+    var bssw = bs.getSouthWest();   //可视区域左下角
+	var bsne = bs.getNorthEast();
+	
+	var logitude = bssw.lng;
+	var latitude = bssw.lat;
 	var latitude1 = latitude;
-	//上海经纬度范围：东经120.85---122.2，北纬30.6667---31.8833
-	//纬度1度 = 大约111km 纬度1分 = 大约1.85km 纬度1秒 = 大约30.9m 
-	for(var i=0; i+logitude<122.2; i+=2/111){
-		logitude+=2/111;
+	var logitude1 = logitude;
+	for(var i=0; i+logitude1<bsne.lng; i+=10/111){
+		logitude+=10/111;
 		latitude = latitude1;
-		for(var j=0; j+latitude<31.8833; j+=2/111){
-			var local = new BMap.LocalSearch(map, {
-				renderOptions:{map: map}
-			});
-			logitude-=2/111;
+		for(var j=0; j+latitude1<bsne.lat; j+=10/111){
+			logitude-=10/111;
 			var pStart = new BMap.Point(logitude,latitude);
-			logitude+=2/111;
-			latitude+=2/111;
+			logitude+=10/111;
+			latitude+=10/111;
 			var pEnd = new BMap.Point(logitude,latitude);
-			var bs = new BMap.Bounds(pStart,pEnd);   //矩形范围
-			local.searchInBounds("水果店", bs);
 			
 			var polygon = new BMap.Polygon([
 				new BMap.Point(pStart.lng,pStart.lat),
