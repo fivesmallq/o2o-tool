@@ -1,0 +1,54 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+		p{margin-left:5px; font-size:14px;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=XTLVTAn3ICmivHBK56mFHDV9"></script>
+	<title>搜索区域内关键词</title>
+</head>
+<body>
+	<div id="allmap"></div>
+    <div id="r-result"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");            // 创建Map实例
+	map.centerAndZoom(new BMap.Point(120.85,30.6667),9);
+	map.enableScrollWheelZoom();    //启用滚轮放大缩小
+    
+	var logitude = 120.85;
+	var latitude = 30.6667;
+	var latitude1 = latitude;
+	//上海经纬度范围：东经120.85---122.2，北纬30.6667---31.8833
+	//纬度1度 = 大约111km 纬度1分 = 大约1.85km 纬度1秒 = 大约30.9m 
+	for(var i=0; i+logitude<122.2; i+=2/111){
+		logitude+=2/111;
+		latitude = latitude1;
+		for(var j=0; j+latitude<31.8833; j+=2/111){
+			var local = new BMap.LocalSearch(map, {
+				renderOptions:{map: map}
+			});
+			logitude-=2/111;
+			var pStart = new BMap.Point(logitude,latitude);
+			logitude+=2/111;
+			latitude+=2/111;
+			var pEnd = new BMap.Point(logitude,latitude);
+			var bs = new BMap.Bounds(pStart,pEnd);   //矩形范围
+			local.searchInBounds("水果店", bs);
+			
+			var polygon = new BMap.Polygon([
+				new BMap.Point(pStart.lng,pStart.lat),
+				new BMap.Point(pEnd.lng,pStart.lat),
+				new BMap.Point(pEnd.lng,pEnd.lat),
+				new BMap.Point(pStart.lng,pEnd.lat)
+				], {strokeColor:"blue", strokeWeight:1, strokeOpacity:0.5});
+			map.addOverlay(polygon);
+		}
+	}
+	
+</script>
