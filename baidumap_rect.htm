@@ -23,13 +23,19 @@
     var bs = map.getBounds();    //矩形范围
     var bssw = bs.getSouthWest();   //可视区域左下角
 	var bsne = bs.getNorthEast();
-	
+	var local = new BMap.LocalSearch(map, {
+		renderOptions:{
+			map: map,
+			autoViewport: false,
+			selectFirstResult: false
+		}
+	});
 	var logitude = bssw.lng;
 	var latitude = bssw.lat;
 	var latitude1 = latitude;
 	var logitude1 = logitude;
 	for(var i=0; i+logitude1<bsne.lng; i+=10/111){
-		logitude+=10/111;
+		logitude+=10/111; //纬度1度 = 大约111km
 		latitude = latitude1;
 		for(var j=0; j+latitude1<bsne.lat; j+=10/111){
 			logitude-=10/111;
@@ -45,7 +51,11 @@
 				new BMap.Point(pStart.lng,pEnd.lat)
 				], {strokeColor:"blue", strokeWeight:1, strokeOpacity:0.5});
 			map.addOverlay(polygon);
+			polygon.addEventListener("click", function(){
+				alert("a");
+				var bs_view = new BMap.Bounds(pStart,pEnd);
+				local.searchInBounds("水果店", bs_view);
+			}); 
 		}
 	}
-	
 </script>
