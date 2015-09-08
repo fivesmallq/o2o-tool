@@ -23,25 +23,11 @@
     var bs = map.getBounds();    //矩形范围
     var bssw = bs.getSouthWest();   //可视区域左下角
 	var bsne = bs.getNorthEast();
-<<<<<<< HEAD
-	
-=======
-	var local = new BMap.LocalSearch(map, {
-		renderOptions:{
-			map: map,
-			autoViewport: false,
-			selectFirstResult: false
-		}
-	});
->>>>>>> 11293c838ea16d05adfdd6f140a2dd0f471220af
+
 	var logitude = bssw.lng;
 	var latitude = bssw.lat;
 	var latitude1 = latitude;
 	var logitude1 = logitude;
-<<<<<<< HEAD
-
-=======
->>>>>>> 11293c838ea16d05adfdd6f140a2dd0f471220af
 	for(var i=0; i+logitude1<bsne.lng; i+=10/111){
 		logitude+=10/111; //纬度1度 = 大约111km
 		latitude = latitude1;
@@ -51,10 +37,7 @@
 			logitude+=10/111;
 			latitude+=10/111;
 			var pEnd = new BMap.Point(logitude,latitude);
-<<<<<<< HEAD
-=======
-			
->>>>>>> 11293c838ea16d05adfdd6f140a2dd0f471220af
+
 			var polygon = new BMap.Polygon([
 				new BMap.Point(pStart.lng,pStart.lat),
 				new BMap.Point(pEnd.lng,pStart.lat),
@@ -62,7 +45,6 @@
 				new BMap.Point(pStart.lng,pEnd.lat)
 				], {strokeColor:"blue", strokeWeight:1, strokeOpacity:0.5});
 			map.addOverlay(polygon);
-<<<<<<< HEAD
 			polygon.addEventListener("click", function(e){
 				var p = e.target;
 				var bs_view = p.getBounds();
@@ -70,17 +52,8 @@
 					renderOptions:{map: p.getMap(),autoViewport: false,selectFirstResult: false},
 					pageCapacity:100
 				});
-=======
-			polygon.addEventListener("click", function(){
-				alert("a");
-				var bs_view = new BMap.Bounds(pStart,pEnd);
->>>>>>> 11293c838ea16d05adfdd6f140a2dd0f471220af
 				local.searchInBounds("水果店", bs_view);
 			}); 
 		}
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 11293c838ea16d05adfdd6f140a2dd0f471220af
 </script>
